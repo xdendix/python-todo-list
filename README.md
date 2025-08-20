@@ -24,7 +24,7 @@ Data tugas disimpan dalam file **JSON** sehingga tidak hilang saat program ditut
 ## 🛠️ Instalasi & Menjalankan
 1. Clone repository ini:
    ```bash
-   git clone https://github.com/username/python-todo-list.git
+   git clone https://github.com/xdendix/python-todo-list.git
    cd python-todo-list
 2. Jalankan Program:
    python main.py
