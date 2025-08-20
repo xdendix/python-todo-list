@@ -29,6 +29,8 @@ Data tugas disimpan dalam file **JSON** sehingga tidak hilang saat program ditut
 2. Jalankan Program:
    python main.py
 
+---
+
 ## 🚀 Cara Menggunakan
 ========== To-Do-List ==========
 1. Tampilkan Tugas
@@ -41,15 +43,19 @@ Pilih 2 → menambahkan tugas baru
 Pilih 3 → menghapus tugas (dengan konfirmasi)
 Pilih 4 → keluar dari program
 
+---
+
 ## 💾 Penyimpanan Data
 - Semua tugas disimpan otomatis ke file todos.json
 - Contoh isi file todos.json:
 
-[  
-  "Belajar Python,
-  "Baca buku",
-  "Main game"
+[
+    "Belajar Python",
+    "Baca buku",
+    "Main game"
 ]
+
+---
 
 ## 📸 Preview
 ========== To-Do-List ==========
