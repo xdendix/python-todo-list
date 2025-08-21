@@ -1,187 +1,177 @@
-# Program To-Do List sederhana untuk menambah, menampilkan, dan menghapus tugas harian.
 import json
-import os
+from json.decoder import JSONDecodeError
+from tabulate import tabulate
+
 
 FILE_NAME = "todos.json"
 
 
+# ========== UTILITAS ==========
 def load_todos():
-    if not os.path.exists(FILE_NAME):
-        return []
     try:
-        with open(FILE_NAME, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except json.JSONDecodeError:
+        with open(FILE_NAME, "r") as file:
+            return json.load(file)
+    except (FileNotFoundError, JSONDecodeError):
         return []
 
 
 def save_todos(todos):
     try:
-        with open(FILE_NAME, "w", encoding="utf-8") as f:
-            json.dump(todos, f, indent=4, ensure_ascii=False)
-        return True
-    except IOError as e:
-        print(f"Error: Gagal menyimpan tugas - {e}")
-        return False
+        with open(FILE_NAME, "w") as file:
+            json.dump(todos, file, indent=4)
+    except IOError:
+        print("\nError: Gagal menyimpan data.")
+
+
+# ========== CRUD FUNGSI ==========
+def tambah_tugas(todos, tugas: str):
+    tugas = tugas.strip()
+    if not tugas:
+        print("\nError: Tugas tidak boleh kosong.")
+        return todos
+
+    if any(existing["judul"].lower() == tugas.lower() for existing in todos):
+        print("\nError: Tugas sudah ada.")
+        return todos
+
+    todos.append({"judul": tugas, "status": False})
+    save_todos(todos)
+    print(f"\nTugas '{tugas}' berhasil ditambahkan.")
+    return todos
+
+
+def ubah_tugas(todos, index: int, tugas_baru: str):
+    if 0 < index <= len(todos):
+        tugas_baru = tugas_baru.strip()
+        if not tugas_baru:
+            print("\nError: Tugas tidak boleh kosong.")
+            return todos
+
+        tugas_baru_lower = tugas_baru.lower()
+        tugas_lama = todos[index - 1]["judul"]
+
+        for existing in todos:
+            if (
+                existing["judul"].lower() == tugas_baru_lower
+                and existing["judul"] != tugas_lama
+            ):
+                print("\nError: Tugas sudah ada.")
+                return todos
+
+        todos[index - 1]["judul"] = tugas_baru
+        save_todos(todos)
+        print(f"\nTugas berhasil diubah menjadi: {tugas_baru}")
+    else:
+        print("\nError: Nomor tugas tidak valid.")
+    return todos
+
+
+def hapus_tugas(todos, index: int):
+    if 0 < index <= len(todos):
+        tugas = todos[index - 1]
+        konfirmasi = input(
+            f"\nApakah Anda yakin ingin menghapus '{tugas['judul']}'? (y/n): "
+        ).lower()
+        if konfirmasi == "y":
+            todos.pop(index - 1)
+            save_todos(todos)
+            print(f"\n{tugas['judul']} berhasil dihapus.")
+        else:
+            print("\nPenghapusan dibatalkan.")
+    else:
+        print("\nError: Nomor tugas tidak valid.")
+    return todos
+
+
+def toggle_status(todos, index: int):
+    if 0 < index <= len(todos):
+        todos[index - 1]["status"] = not todos[index - 1]["status"]
+        save_todos(todos)
+        status = "selesai" if todos[index - 1]["status"] else "belum selesai"
+        print(f"\nTugas '{todos[index - 1]['judul']}' ditandai {status}.")
+    else:
+        print("\nError: Nomor tugas tidak valid.")
+    return todos
 
 
 def tampilkan_tugas(todos):
     if not todos:
         print("\nBelum ada tugas.")
-        return
-    print("\nDaftar Tugas:\n")
-    for i, tugas in enumerate(todos, start=1):
-        print(f"{i}. {tugas}")
-
-
-def tambah_tugas(todos, tugas: str):
-    todos.append(tugas)
-    save_todos(todos)  # simpan file
-    print(f"\n{tugas} berhasil ditambahkan dan disimpan.")
-    
-    return todos
-
-
-def ubah_tugas(todos):
-    if not todos:
-        print("Tidak ada tugas untuk diubah.")
-        return todos
-
-    tampilkan_tugas(todos)
-
-    try:
-        index = int(input("\nMasukkan nomor tugas yang ingin diubah: "))
-        if not (1 <= index <= len(todos)):
-            print("\nError: Nomor tugas tidak ada.")
-            return todos
-
-        tugas_lama = todos[index - 1]
-        print(f"\nTugas lama: {tugas_lama}")
-
-        tugas_baru = input("Masukkan tugas baru: ").strip()
-
-        is_valid, message = validate_task(tugas_baru)
-        if not is_valid:
-            print(f"\nError: {message}")
-            return todos
-
-        # cek apakah sama dengan tugas lama
-        if tugas_baru == tugas_lama:
-            print("\nTugas tidak berubah.")
-            return todos
-
-        # cek duplikat
-        tugas_baru_lower = tugas_baru.lower()
-        for existing in todos:
-            if existing.lower() == tugas_baru_lower and existing != tugas_lama:
-                print(f"\nTugas '{tugas_baru}' sudah ada dalam daftar.")
-                return todos
-
-        todos[index - 1] = tugas_baru
-        if save_todos(todos):
-            print(
-                f"\nTugas berhasil diubah dari '{tugas_lama}' menjadi '{tugas_baru}'."
-            )
-
-    except ValueError:
-        print("\nError: Input harus berupa angka.")
-
-    return todos
-
-
-def hapus_tugas(todos, index: int):
-    # Hapus tugas
-    if 0 < index <= len(todos):
-        tugas = todos.pop(index - 1)
-        save_todos(todos)  # simpan file sehabis dihapus
-        print(f"\n{tugas} berhasil dihapus.")
     else:
-        print("\nError: Input tidak valid.")
-        
-    return todos
+        table = []
+        for i, tugas in enumerate(todos, start=1):
+            status = "✔️" if tugas["status"] else "❌"
+            prioritas = tugas.get("prioritas", "-")
+            table.append([i, status, tugas["judul"], prioritas])
+
+        print("\nDaftar Tugas: ")
+        print(
+            tabulate(
+                table, headers=["No", "Status", "Judul", "Prioritas"], tablefmt="grid"
+            )
+        )
 
 
-def validate_task(task):
-    if not task or len(task.strip()) == 0:
-        return False, "Tugas tidak boleh kosong"
-    if len(task) > 100:
-        return False, "Tugas terlalu panjang (maks 100 karakter)"
-    return True, task.strip()
+# ========== MENU UTAMA ==========
+def main():
+    todos = load_todos()
 
-
-# Program utama
-def tampilan_utama_program():
-    todos = load_todos()  # load dari file saat mulai
     while True:
-        print("\n" + "To-Do-List".center(34, "=") + "\n")
-        print("1. Tampilkan Tugas")
-        print("2. Tambah Tugas")
-        print("3. Ubah Tugas")
-        print("4. Hapus Tugas")
-        print("5. Keluar")
+        print("\n" + "=" * 10 + " To-Do List " + "=" * 10 + "\n")
+        print("1. Tambah Tugas")
+        print("2. Ubah Tugas")
+        print("3. Hapus Tugas")
+        print("4. Lihat Tugas")
+        print("5. Tandai / Batalkan Status Tugas")
+        print("6. Keluar")
 
-        while True:
-            pilihan_input = input("\nMasukkan pilihan: ")
-            if pilihan_input.strip() == "":
-                print("\nError: Pilihan tidak boleh kosong.")
-                continue
+        try:
+            pilihan = int(input("\nMasukkan pilihan (1-6): "))
+        except ValueError:
+            print("\nError: Masukkan angka 1-6.")
+            continue
+
+        if pilihan == 1:
+            tugas = input("\nMasukkan tugas baru: ")
+            todos = tambah_tugas(todos, tugas)
+
+        elif pilihan == 2:
+            tampilkan_tugas(todos)
             try:
-                pilihan = int(pilihan_input)
-                break
+                index = int(input("\nMasukkan nomor tugas yang ingin diubah: "))
+                tugas_baru = input("Masukkan tugas baru: ")
+                todos = ubah_tugas(todos, index, tugas_baru)
             except ValueError:
                 print("\nError: Input tidak valid.")
 
-        if pilihan == 1:
-            tampilkan_tugas(todos)
-
-        elif pilihan == 2:
-            tugas = input("\nMasukkan tugas hari ini: ").strip()
-            is_valid, message = validate_task(tugas)
-            if not is_valid:
-                print(f"\nError: {message}")
-            else:
-                tambah_tugas(todos, message)
-                tampilkan_tugas(todos)
-
         elif pilihan == 3:
-            ubah_tugas(todos)
-
-        elif pilihan == 4:
             tampilkan_tugas(todos)
             try:
                 index = int(input("\nMasukkan nomor tugas yang ingin dihapus: "))
-                if not (1 <= index <= len(todos)):
-                    print("\nError: Nomor tugas tidak ada.")
-                    continue
-                while True:
-                    konfirmasi = input(
-                        "\nApakah yakin ingin menghapus? (y/n): "
-                    ).lower()
-                    if konfirmasi == "y":
-                        hapus_tugas(todos, index)
-                        break
-                    elif konfirmasi == "n":
-                        print("\nBatal menghapus tugas.")
-                        break
-                    else:
-                        print("\nError: Pilihan hanya 'y' dan 'n'")
+                todos = hapus_tugas(todos, index)
             except ValueError:
                 print("\nError: Input tidak valid.")
 
+        elif pilihan == 4:
+            tampilkan_tugas(todos)
+
         elif pilihan == 5:
-            while True:
-                konfirmasi = input("\nYakin ingin keluar? (y/n): ").lower()
-                if konfirmasi == "y":
-                    print("\nTerima kasih.")
-                    return
-                elif konfirmasi == "n":
-                    break
-                else:
-                    print("\nError: Pilihan hanya 'y' dan 'n'")
+            tampilkan_tugas(todos)
+            try:
+                index = int(
+                    input("\nMasukkan nomor tugas yang ingin diubah statusnya: ")
+                )
+                todos = toggle_status(todos, index)
+            except ValueError:
+                print("\nError: Input tidak valid.")
+
+        elif pilihan == 6:
+            print("\nTerima kasih telah menggunakan To-Do List.")
+            break
 
         else:
-            print("\nError: Masukkan angka dari 1-5 untuk memilih menu.")
+            print("\nError: Pilihan hanya 1-6.")
 
 
 if __name__ == "__main__":
-    tampilan_utama_program()
+    main()

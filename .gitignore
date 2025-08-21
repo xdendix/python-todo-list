@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+env/
+todo-list/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# VSCode / PyCharm settings
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs / databases
+*.log
+*.sqlite3
+*.db
