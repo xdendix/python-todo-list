@@ -1,23 +1,29 @@
 # 📝 To-Do List CLI dengan Python
 
-Proyek sederhana **To-Do List** berbasis **Command Line Interface (CLI)** menggunakan Python.  
-Data tugas disimpan dalam file **JSON** sehingga tidak hilang saat program ditutup.
+Proyek sederhana **To-Do List** berbasis Command Line Interface (CLI) menggunakan Python.  
+Data tugas disimpan dalam file **JSON** sehingga tidak hilang saat program ditutup.  
+Dengan tampilan tabel rapi menggunakan **tabulate**.
 
 ---
 
 ## 📦 Requirements
-- Python **3.8+**
-- Tidak perlu library tambahan (hanya modul bawaan Python: `json`, `os`)
+- Python 3.8+
+- Library tambahan:
+  - [tabulate](https://pypi.org/project/tabulate/) (untuk tampilan tabel)
 
 ---
 
 ## 📌 Fitur
-- Melihat daftar tugas
+- Melihat daftar tugas dalam bentuk tabel
 - Menambah tugas baru
 - Menghapus tugas
+- Mengubah tugas
+- Menandai status tugas (selesai / belum selesai)
 - Menyimpan data otomatis ke `todos.json`
 - Memuat kembali data saat program dijalankan ulang
 - Validasi input & konfirmasi saat menghapus tugas
+- (Coming soon) Prioritas tugas (High/Medium/Low)
+- (Coming soon) Deadline tugas
 
 ---
 
@@ -25,7 +31,7 @@ Data tugas disimpan dalam file **JSON** sehingga tidak hilang saat program ditut
 1. Clone repository ini:
    ```bash
    git clone https://github.com/xdendix/python-todo-list.git
-   cd python-todo-list
+   cd todo-list
 2. Jalankan Program:
    python main.py
 
