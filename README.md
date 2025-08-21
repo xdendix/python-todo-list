@@ -1,6 +1,6 @@
 # 📝 To-Do List CLI dengan Python
 
-Proyek sederhana **To-Do List** berbasis Command Line Interface (CLI) menggunakan Python.  
+Proyek **To-Do List** berbasis Command Line Interface (CLI) menggunakan Python.  
 Data tugas disimpan dalam file **JSON** sehingga tidak hilang saat program ditutup.  
 Dengan tampilan tabel rapi menggunakan **tabulate**.
 
@@ -14,16 +14,14 @@ Dengan tampilan tabel rapi menggunakan **tabulate**.
 ---
 
 ## 📌 Fitur
-- Melihat daftar tugas dalam bentuk tabel
 - Menambah tugas baru
-- Menghapus tugas
-- Mengubah tugas
-- Menandai status tugas (selesai / belum selesai)
+- Mengubah tugas yang sudah ada
+- Menghapus tugas (dengan konfirmasi)
+- Melihat daftar tugas dalam bentuk tabel
+- Menandai / membatalkan status tugas (selesai atau belum selesai)
 - Menyimpan data otomatis ke `todos.json`
 - Memuat kembali data saat program dijalankan ulang
-- Validasi input & konfirmasi saat menghapus tugas
-- (Coming soon) Prioritas tugas (High/Medium/Low)
-- (Coming soon) Deadline tugas
+- Validasi input agar tidak error
 
 ---
 
@@ -32,45 +30,56 @@ Dengan tampilan tabel rapi menggunakan **tabulate**.
    ```bash
    git clone https://github.com/xdendix/python-todo-list.git
    cd todo-list
-2. Jalankan Program:
-   python main.py
+2. Buat virtual environment (opsional tapi disarankan):
+   - python -m venv todo-list
+   - source todo-list/bin/activate   # Linux/Mac
+   - todo-list\Scripts\activate      # Windows
 
+3. Install dependencies:
+   - pip install -r requirements.txt
+
+4. Jalankan program:
+   - python main.py
 ---
 
 ## 🚀 Cara Menggunakan
-========== To-Do-List ==========
-1. Tampilkan Tugas
-2. Tambah Tugas
+========== To-Do List ==========
+
+1. Tambah Tugas
+2. Ubah Tugas
 3. Hapus Tugas
-4. Keluar
+4. Lihat Tugas
+5. Tandai / Batalkan Status Tugas
+6. Keluar
    
-Pilih 1 → menampilkan daftar tugas
-Pilih 2 → menambahkan tugas baru
-Pilih 3 → menghapus tugas (dengan konfirmasi)
-Pilih 4 → keluar dari program
+- Pilih 1 → menambah tugas baru
+- Pilih 2 → mengubah tugas (judul)
+- Pilih 3 → menghapus tugas (ada konfirmasi)
+- Pilih 4 → melihat semua tugas dalam bentuk tabel
+- Pilih 5 → menandai atau membatalkan status tugas (selesai/belum selesai)
+- Pilih 6 → keluar dari program
 
 ---
 
 ## 💾 Penyimpanan Data
 - Semua tugas disimpan otomatis ke file todos.json
 - Contoh isi file todos.json:
-
-[
-    "Belajar Python",
-    "Baca buku",
-    "Main game"
-]
+  ```bash
+  [
+    {"judul": "Belajar Python", "status": false},
+    {"judul": "Belanja Harian", "status": true}
+  ]
 
 ---
 
 ## 📸 Preview
-========== To-Do-List ==========
-1. Tampilkan Tugas
-2. Tambah Tugas
-3. Hapus Tugas
-4. Keluar
+Daftar Tugas:
+  ```bash
+  +----+--------+-----------------+------------+
+  | No | Status | Judul           | Prioritas  |
+  +----+--------+-----------------+------------+
+  |  1 | ❌     | Belajar Python  | -          |
+  |  2 | ✔️     | Belanja Harian | -          |
+  |  3 | ❌     | Kerjakan PR     | -          |
+  +----+--------+-----------------+------------+
 
-Masukkan pilihan: 2
-Masukkan tugas hari ini: Belajar Python
-
-Belajar Python berhasil ditambahkan dan disimpan.
