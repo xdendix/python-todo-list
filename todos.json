@@ -1,10 +1,22 @@
 [
     {
         "judul": "Coding",
-        "status": false
+        "status": false,
+        "prioritas": "High"
     },
     {
         "judul": "Gaming",
-        "status": false
+        "status": false,
+        "prioritas": "Low"
+    },
+    {
+        "judul": "Membaca",
+        "status": false,
+        "prioritas": "High"
+    },
+    {
+        "judul": "Ngopi",
+        "status": false,
+        "prioritas": "Medium"
     }
 ]
