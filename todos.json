@@ -1,21 +1,31 @@
 [
     {
-        "judul": "Coding",
+        "judul": "Tugas Normal",
         "status": false,
         "prioritas": "High"
     },
     {
-        "judul": "Gaming",
+        "judul": "Tugas 0",
         "status": false,
-        "prioritas": "Low"
+        "prioritas": "Medium"
     },
     {
-        "judul": "Membaca",
+        "judul": "Tugas 1",
         "status": false,
-        "prioritas": "High"
+        "prioritas": "Medium"
     },
     {
-        "judul": "Ngopi",
+        "judul": "Tugas 2",
+        "status": false,
+        "prioritas": "Medium"
+    },
+    {
+        "judul": "Tugas 3",
+        "status": false,
+        "prioritas": "Medium"
+    },
+    {
+        "judul": "Tugas 4",
         "status": false,
         "prioritas": "Medium"
     }
