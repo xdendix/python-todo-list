@@ -24,7 +24,7 @@ def tambah_tugas(todos, tugas: str, prioritas: str = "Medium"):
     return todos
 
 
-def ubah_tugas(todos, index: int, tugas_baru: str, prioritas_baru: str):
+def ubah_tugas(todos, index: int, tugas_baru: str):
     if 0 < index <= len(todos):
         tugas_baru = tugas_baru.strip()
         if not tugas_baru:
@@ -42,14 +42,31 @@ def ubah_tugas(todos, index: int, tugas_baru: str, prioritas_baru: str):
                 print("\nError: Tugas sudah ada.")
                 return todos
 
-        if prioritas_baru:
-            todos[index - 1]["prioritas"] = prioritas_baru
-
         todos[index - 1]["judul"] = tugas_baru
         save_todos(todos)
         print(f"\nTugas berhasil diubah menjadi: {tugas_baru}")
     else:
         print("\nError: Nomor tugas tidak valid.")
+    return todos
+
+
+def ubah_prioritas(todos, index: int, prioritas_baru: str):
+    # validasi index
+    if not (0 < index <= len(todos)):
+        print("\nError: Nomor tugas tidak valid.")
+        return todos
+
+    # validasi prioritas
+    prioritas_baru = prioritas_baru.capitalize()
+    if prioritas_baru not in ["High", "Medium", "Low"]:
+        print("\nError: Prioritas hanya boleh High/Medium/Low.")
+        return todos
+
+    todos[index - 1]["prioritas"] = prioritas_baru
+    save_todos(todos)
+    print(
+        f"\nPrioritas tugas '{todos[index- 1]["judul"]}' berhasil diubah menjadi {prioritas_baru}."
+    )
     return todos
 
 
