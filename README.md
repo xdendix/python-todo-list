@@ -20,6 +20,7 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
 - ✅ Menghapus tugas (dengan konfirmasi)
 - ✅ Melihat daftar tugas dalam bentuk tabel yang terurut berdasarkan prioritas
 - ✅ Menandai / membatalkan status tugas (selesai atau belum selesai)
+- ✅ **Pencarian tugas fleksibel** dengan berbagai kriteria
 - ✅ Menyimpan data otomatis ke `todos.json`
 - ✅ Memuat kembali data saat program dijalankan ulang
 - ✅ **Validasi input yang lebih baik** untuk mencegah error
@@ -74,7 +75,8 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
 - **Pilih 4** → Menghapus tugas (dengan konfirmasi y/n)
 - **Pilih 5** → Melihat semua tugas dalam bentuk tabel yang terurut
 - **Pilih 6** → Menandai atau membatalkan status tugas (selesai/belum selesai)
-- **Pilih 7** → Keluar dari program
+- **Pilih 7** → **Pencarian tugas** dengan berbagai kriteria
+- **Pilih 8** → Keluar dari program
 
 **Fitur UI/UX yang ditingkatkan:**
 - Tabel tugas diurutkan berdasarkan prioritas (High → Medium → Low)
@@ -125,4 +127,15 @@ Daftar Tugas:
 2. **Mengubah prioritas**: Pilih 3 → Pilih nomor tugas → "Medium"
 3. **Menandai selesai**: Pilih 6 → Pilih nomor tugas → Status berubah menjadi ✔️
 4. **Validasi error**: Input nomor di luar range → "Error: Nomor tugas tidak valid"
+5. **Pencarian tugas**: Pilih 7 → Anda akan diberikan opsi untuk mencari berdasarkan:
+   - **Kata kunci**: Cari tugas yang mengandung kata tertentu
+   - **Prioritas**: Filter berdasarkan High, Medium, atau Low
+   - **Status**: Filter berdasarkan selesai atau belum selesai
+   - **Kombinasi**: Gabungkan beberapa kriteria pencarian sekaligus
+
+**Contoh penggunaan pencarian:**
+- Cari semua tugas dengan prioritas "High" yang belum selesai
+- Cari tugas yang mengandung kata "meeting" 
+- Cari tugas yang sudah selesai dengan prioritas "Medium"
+- Cari tugas berdasarkan kombinasi kriteria tertentu
 
