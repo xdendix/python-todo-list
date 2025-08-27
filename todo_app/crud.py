@@ -96,3 +96,47 @@ def toggle_status(todos, index: int):
     else:
         print("\nError: Nomor tugas tidak valid.")
     return todos
+
+
+def cari_tugas(todos, kata_kunci: str = "", prioritas: str = "", status: str = ""):
+    """
+    Mencari tugas berdasarkan kriteria yang ditentukan.
+    
+    Args:
+        todos: List tugas yang akan dicari
+        kata_kunci: Kata kunci untuk pencarian judul (opsional)
+        prioritas: Prioritas tugas untuk difilter (High/Medium/Low, opsional)
+        status: Status tugas untuk difilter (True untuk selesai, False untuk belum selesai, opsional)
+        
+    Returns:
+        List: Daftar tugas yang memenuhi kriteria pencarian
+    """
+    hasil = todos.copy()
+    
+    # Filter berdasarkan kata kunci
+    if kata_kunci:
+        kata_kunci = kata_kunci.lower()
+        hasil = [t for t in hasil if kata_kunci in t["judul"].lower()]
+    
+    # Filter berdasarkan prioritas
+    if prioritas:
+        prioritas = prioritas.capitalize()
+        if prioritas in ["High", "Medium", "Low"]:
+            hasil = [t for t in hasil if t["prioritas"] == prioritas]
+    
+    # Filter berdasarkan status
+    if status:
+        if status.lower() == "selesai":
+            hasil = [t for t in hasil if t["status"]]
+        elif status.lower() == "belum selesai":
+            hasil = [t for t in hasil if not t["status"]]
+    
+    if not hasil:
+        print("\nTidak ada tugas yang sesuai dengan kriteria pencarian.")
+    else:
+        print(f"\nHasil pencarian ({len(hasil)} tugas ditemukan):")
+        for i, tugas in enumerate(hasil, 1):
+            status_text = "✔️ Selesai" if tugas["status"] else "❌ Belum selesai"
+            print(f"{i}. {tugas['judul']} (Prioritas: {tugas['prioritas']}, Status: {status_text})")
+    
+    return hasil
