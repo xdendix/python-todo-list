@@ -17,10 +17,11 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
 - ✅ Menambah tugas baru dengan prioritas (High/Medium/Low)
 - ✅ Mengubah tugas yang sudah ada
 - ✅ Mengubah prioritas tugas
+- ✅ Mengubah deadline tugas (format YYYY-MM-DD)
 - ✅ Menghapus tugas (dengan konfirmasi)
 - ✅ Melihat daftar tugas dalam bentuk tabel yang terurut berdasarkan prioritas
 - ✅ Menandai / membatalkan status tugas (selesai atau belum selesai)
-- ✅ **Pencarian tugas fleksibel** dengan berbagai kriteria
+- ✅ **Pencarian tugas fleksibel** dengan berbagai kriteria, termasuk deadline
 - ✅ Menyimpan data otomatis ke `todos.json`
 - ✅ Memuat kembali data saat program dijalankan ulang
 - ✅ **Validasi input yang lebih baik** untuk mencegah error
@@ -72,11 +73,12 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
 - **Pilih 1** → Menambah tugas baru dengan opsi prioritas (High/Medium/Low)
 - **Pilih 2** → Mengubah judul tugas yang sudah ada
 - **Pilih 3** → Mengubah prioritas tugas (High/Medium/Low)
-- **Pilih 4** → Menghapus tugas (dengan konfirmasi y/n)
-- **Pilih 5** → Melihat semua tugas dalam bentuk tabel yang terurut
-- **Pilih 6** → Menandai atau membatalkan status tugas (selesai/belum selesai)
-- **Pilih 7** → **Pencarian tugas** dengan berbagai kriteria
-- **Pilih 8** → Keluar dari program
+- **Pilih 4** → Mengubah deadline tugas (format YYYY-MM-DD)
+- **Pilih 5** → Menghapus tugas (dengan konfirmasi y/n)
+- **Pilih 6** → Melihat semua tugas dalam bentuk tabel yang terurut
+- **Pilih 7** → Menandai atau membatalkan status tugas (selesai/belum selesai)
+- **Pilih 8** → **Pencarian tugas** dengan berbagai kriteria
+- **Pilih 9** → Keluar dari program
 
 **Fitur UI/UX yang ditingkatkan:**
 - Tabel tugas diurutkan berdasarkan prioritas (High → Medium → Low)
