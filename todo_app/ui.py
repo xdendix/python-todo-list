@@ -1,4 +1,5 @@
 from tabulate import tabulate
+from todo_app.utils import format_deadline_display
 
 
 def tampilkan_tugas(todos):
@@ -11,11 +12,14 @@ def tampilkan_tugas(todos):
         for i, tugas in enumerate(todos, start=1):
             status = "✔️" if tugas["status"] else "❌"
             prioritas = tugas.get("prioritas")
-            table.append([i, status, tugas["judul"], prioritas])
+            deadline = format_deadline_display(tugas.get("deadline", ""))
+            table.append([i, status, tugas["judul"], prioritas, deadline])
 
         print("\nDaftar Tugas: ")
         print(
             tabulate(
-                table, headers=["No", "Status", "Judul", "Prioritas"], tablefmt="grid"
+                table, 
+                headers=["No", "Status", "Judul", "Prioritas", "Deadline"], 
+                tablefmt="grid"
             )
         )
