@@ -64,10 +64,12 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
 1. Tambah Tugas
 2. Ubah Tugas
 3. Ubah Prioritas
-4. Hapus Tugas
-5. Lihat Tugas
-6. Tandai / Batalkan Status Tugas
-7. Keluar
+4. Ubah Deadline
+5. Hapus Tugas
+6. Lihat Tugas
+7. Tandai / Batalkan Status Tugas
+8. Cari Tugas
+9. Keluar
 ```
 
 - **Pilih 1** → Menambah tugas baru dengan opsi prioritas (High/Medium/Low)
@@ -96,12 +98,14 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
   {
     "judul": "Belajar Python",
     "status": false,
-    "prioritas": "High"
+    "prioritas": "High",
+    "deadline": "2024-01-15"
   },
   {
     "judul": "Belanja Harian", 
     "status": true,
-    "prioritas": "Medium"
+    "prioritas": "Medium",
+    "deadline": ""
   }
 ]
 ```
@@ -111,33 +115,36 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
 ## 📸 Preview
 ```
 Daftar Tugas: 
-+----+--------+-----------------+------------+
-| No | Status | Judul           | Prioritas  |
-+====+========+=================+============+
-|  1 | ❌     | Belajar Python  | High       |
-+----+--------+-----------------+------------+
-|  2 | ✔️     | Belanja Harian | Medium     |
-+----+--------+-----------------+------------+
-|  3 | ❌     | Kerjakan PR     | Low        |
-+----+--------+-----------------+------------+
++----+--------+-----------------+------------+------------+
+| No | Status | Judul           | Prioritas  | Deadline   |
++====+========+=================+============+============+
+|  1 | ❌     | Belajar Python  | High       | 2024-01-15 |
++----+--------+-----------------+------------+------------+
+|  2 | ✔️     | Belanja Harian | Medium     | -          |
++----+--------+-----------------+------------+------------+
+|  3 | ❌     | Kerjakan PR     | Low        | 2023-12-01 |
++----+--------+-----------------+------------+------------+
 ```
 
 ---
 
 ## 🎯 Contoh Penggunaan
-1. **Menambah tugas**: Pilih 1 → "Meeting penting" → Prioritas "High"
+1. **Menambah tugas**: Pilih 1 → "Meeting penting" → Prioritas "High" → Deadline "2024-01-15"
 2. **Mengubah prioritas**: Pilih 3 → Pilih nomor tugas → "Medium"
-3. **Menandai selesai**: Pilih 6 → Pilih nomor tugas → Status berubah menjadi ✔️
-4. **Validasi error**: Input nomor di luar range → "Error: Nomor tugas tidak valid"
-5. **Pencarian tugas**: Pilih 7 → Anda akan diberikan opsi untuk mencari berdasarkan:
+3. **Mengubah deadline**: Pilih 4 → Pilih nomor tugas → "2024-01-20"
+4. **Menandai selesai**: Pilih 7 → Pilih nomor tugas → Status berubah menjadi ✔️
+5. **Validasi error**: Input nomor di luar range → "Error: Nomor tugas tidak valid"
+6. **Pencarian tugas**: Pilih 8 → Anda akan diberikan opsi untuk mencari berdasarkan:
    - **Kata kunci**: Cari tugas yang mengandung kata tertentu
    - **Prioritas**: Filter berdasarkan High, Medium, atau Low
    - **Status**: Filter berdasarkan selesai atau belum selesai
+   - **Deadline**: Filter berdasarkan tanggal tertentu
    - **Kombinasi**: Gabungkan beberapa kriteria pencarian sekaligus
 
 **Contoh penggunaan pencarian:**
 - Cari semua tugas dengan prioritas "High" yang belum selesai
 - Cari tugas yang mengandung kata "meeting" 
 - Cari tugas yang sudah selesai dengan prioritas "Medium"
+- Cari tugas dengan deadline 2024-01-15
 - Cari tugas berdasarkan kombinasi kriteria tertentu
 
