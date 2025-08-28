@@ -5,6 +5,18 @@
         "prioritas": "High"
     },
     {
+        "judul": "Backend Project",
+        "status": false,
+        "prioritas": "High",
+        "deadline": ""
+    },
+    {
+        "judul": "Tugas 5",
+        "status": false,
+        "prioritas": "High",
+        "deadline": ""
+    },
+    {
         "judul": "Tugas 0",
         "status": false,
         "prioritas": "Medium"

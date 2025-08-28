@@ -3,6 +3,7 @@ from todo_app.crud import (
     tambah_tugas,
     ubah_tugas,
     ubah_prioritas,
+    ubah_deadline,
     hapus_tugas,
     toggle_status,
     cari_tugas,
@@ -19,16 +20,17 @@ def main():
         print("1. Tambah Tugas")
         print("2. Ubah Tugas")
         print("3. Ubah Prioritas")
-        print("4. Hapus Tugas")
-        print("5. Lihat Tugas")
-        print("6. Tandai / Batalkan Status Tugas")
-        print("7. Cari Tugas")
-        print("8. Keluar")
+        print("4. Ubah Deadline")
+        print("5. Hapus Tugas")
+        print("6. Lihat Tugas")
+        print("7. Tandai / Batalkan Status Tugas")
+        print("8. Cari Tugas")
+        print("9. Keluar")
 
         try:
-            pilihan = int(input("\nMasukkan pilihan (1-8): "))
+            pilihan = int(input("\nMasukkan pilihan (1-9): "))
         except ValueError:
-            print("\nError: Masukkan angka 1-8.")
+            print("\nError: Masukkan angka 1-9.")
             continue
 
         if pilihan == 1:
@@ -38,7 +40,8 @@ def main():
             ).capitalize()
             if not prioritas:
                 prioritas = "Medium"
-            todos = tambah_tugas(todos, tugas, prioritas)
+            deadline = input("Masukkan deadline (format YYYY-MM-DD, opsional): ")
+            todos = tambah_tugas(todos, tugas, prioritas, deadline)
 
         elif pilihan == 2:
             tampilkan_tugas(todos)
@@ -75,6 +78,20 @@ def main():
             if not todos:
                 continue
             try:
+                index = int(input("\nMasukkan nomor tugas yang ingin diubah deadline: "))
+                if index < 1 or index > len(todos):
+                    print("\nError: Nomor tugas tidak valid.")
+                    continue
+                deadline_baru = input("Masukkan deadline baru (format YYYY-MM-DD, kosongkan untuk menghapus): ")
+                todos = ubah_deadline(todos, index, deadline_baru)
+            except ValueError:
+                print("\nError: Input tidak valid.")
+
+        elif pilihan == 5:
+            tampilkan_tugas(todos)
+            if not todos:
+                continue
+            try:
                 index = int(input("\nMasukkan nomor tugas yang ingin dihapus: "))
                 if index < 1 or index > len(todos):
                     print("\nError: Nomor tugas tidak valid.")
@@ -83,10 +100,10 @@ def main():
             except ValueError:
                 print("\nError: Input tidak valid.")
 
-        elif pilihan == 5:
+        elif pilihan == 6:
             tampilkan_tugas(todos)
 
-        elif pilihan == 6:
+        elif pilihan == 7:
             tampilkan_tugas(todos)
             if not todos:
                 continue
@@ -99,50 +116,62 @@ def main():
                     continue
                 todos = toggle_status(todos, index)
             except ValueError:
-                print("\nError: Input tidak valid.")
+                print("\nError: input tidak valid.")
 
-        elif pilihan == 7:
+        elif pilihan == 8:
             print("\n=== PENCARIAN TUGAS ===")
             print("1. Cari berdasarkan kata kunci")
             print("2. Cari berdasarkan prioritas")
             print("3. Cari berdasarkan status")
-            print("4. Cari dengan kombinasi kriteria")
-            
+            print("4. Cari berdasarkan deadline")
+            print("5. Cari dengan kombinasi kriteria")
+
             try:
-                pilihan_cari = int(input("\nPilih jenis pencarian (1-4): "))
+                pilihan_cari = int(input("\nPilih jenis pencarian (1-5): "))
             except ValueError:
-                print("\nError: Masukkan angka 1-4.")
+                print("\nError: Masukkan angka 1-5.")
                 continue
-                
+
             if pilihan_cari == 1:
                 kata_kunci = input("Masukkan kata kunci: ")
                 cari_tugas(todos, kata_kunci=kata_kunci)
-                
+
             elif pilihan_cari == 2:
                 print("\nPrioritas: High, Medium, Low")
                 prioritas = input("Masukkan prioritas: ")
                 cari_tugas(todos, prioritas=prioritas)
-                
+
             elif pilihan_cari == 3:
                 print("\nStatus: selesai, belum selesai")
                 status = input("Masukkan status: ")
                 cari_tugas(todos, status=status)
-                
+
             elif pilihan_cari == 4:
+                deadline = input("Masukkan deadline (format YYYY-MM-DD): ")
+                cari_tugas(todos, deadline=deadline)
+
+            elif pilihan_cari == 5:
                 kata_kunci = input("Masukkan kata kunci (kosongkan jika tidak perlu): ")
                 prioritas = input("Masukkan prioritas (kosongkan jika tidak perlu): ")
                 status = input("Masukkan status (selesai/belum selesai, kosongkan jika tidak perlu): ")
-                cari_tugas(todos, kata_kunci=kata_kunci, prioritas=prioritas, status=status)
-                
-            else:
-                print("\nError: Pilihan hanya 1-4.")
+                deadline = input("Masukkan deadline (YYYY-MM-DD, kosongkan jika tidak perlu): ")
+                cari_tugas(
+                    todos, 
+                    kata_kunci=kata_kunci, 
+                    prioritas=prioritas, 
+                    status=status,
+                    deadline=deadline
+                )
 
-        elif pilihan == 8:
+            else:
+                print("\nError: Pilihan hanya 1-5.")
+
+        elif pilihan == 9:
             print("\nTerima kasih telah menggunakan To-Do List.")
             break
 
         else:
-            print("\nError: Pilihan hanya 1-8.")
+            print("\nError: Pilihan hanya 1-9.")
 
 
 if __name__ == "__main__":
