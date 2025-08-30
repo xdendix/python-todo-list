@@ -1,19 +1,11 @@
 from todo_app.storage import load_todos
-from todo_app.crud import (
-    tambah_tugas,
-    ubah_tugas,
-    ubah_prioritas,
-    ubah_deadline,
-    hapus_tugas,
-    toggle_status,
-    cari_tugas,
-)
+from todo_app.crud import TodoManager
 from todo_app.ui import tampilkan_tugas
 
 
 # ========== MENU UTAMA ==========
 def main():
-    todos = load_todos()
+    todo_manager = TodoManager()
 
     while True:
         print("\n" + "=" * 10 + " To-Do List " + "=" * 10 + "\n")
@@ -41,80 +33,83 @@ def main():
             if not prioritas:
                 prioritas = "Medium"
             deadline = input("Masukkan deadline (format YYYY-MM-DD, opsional): ")
-            todos = tambah_tugas(todos, tugas, prioritas, deadline)
+            todo_manager.tambah_tugas(tugas, prioritas, deadline)
 
         elif pilihan == 2:
-            tampilkan_tugas(todos)
-            if not todos:
+            tampilkan_tugas(todo_manager.get_todos())
+            if not todo_manager.get_todos():
                 continue
             try:
                 index = int(input("\nMasukkan nomor tugas yang ingin diubah: "))
-                if index < 1 or index > len(todos):
+                if index < 1 or index > len(todo_manager.get_todos()):
                     print("\nError: Nomor tugas tidak valid.")
                     continue
                 tugas_baru = input("Masukkan tugas baru: ")
-                todos = ubah_tugas(todos, index, tugas_baru)
+                deadline = input("Masukkan deadline baru (format YYYY-MM-DD, kosongkan untuk tidak diubah): ")
+                if deadline == "":
+                    deadline = None
+                todo_manager.ubah_tugas(index, tugas_baru, deadline)
             except ValueError:
                 print("\nError: Input tidak valid.")
 
         elif pilihan == 3:
-            tampilkan_tugas(todos)
-            if not todos:
+            tampilkan_tugas(todo_manager.get_todos())
+            if not todo_manager.get_todos():
                 continue
             try:
                 index = int(
                     input("\nMasukkan nomor tugas yang ingin diubah prioritasnya: ")
                 )
-                if index < 1 or index > len(todos):
+                if index < 1 or index > len(todo_manager.get_todos()):
                     print("\nError: Nomor tugas tidak valid.")
                     continue
                 prioritas_baru = input("Masukkan prioritas baru: ").capitalize()
-                todos = ubah_prioritas(todos, index, prioritas_baru)
+                todo_manager.ubah_prioritas(index, prioritas_baru)
             except ValueError:
                 print("\nError: Input tidak valid.")
 
         elif pilihan == 4:
-            tampilkan_tugas(todos)
-            if not todos:
+            tampilkan_tugas(todo_manager.get_todos())
+            if not todo_manager.get_todos():
                 continue
             try:
                 index = int(input("\nMasukkan nomor tugas yang ingin diubah deadline: "))
-                if index < 1 or index > len(todos):
+                if index < 1 or index > len(todo_manager.get_todos()):
                     print("\nError: Nomor tugas tidak valid.")
                     continue
                 deadline_baru = input("Masukkan deadline baru (format YYYY-MM-DD, kosongkan untuk menghapus): ")
-                todos = ubah_deadline(todos, index, deadline_baru)
+                todo_manager.ubah_deadline(index, deadline_baru)
             except ValueError:
                 print("\nError: Input tidak valid.")
 
         elif pilihan == 5:
-            tampilkan_tugas(todos)
-            if not todos:
+            tampilkan_tugas(todo_manager.get_todos())
+            if not todo_manager.get_todos():
                 continue
             try:
                 index = int(input("\nMasukkan nomor tugas yang ingin dihapus: "))
-                if index < 1 or index > len(todos):
+                if index < 1 or index > len(todo_manager.get_todos()):
                     print("\nError: Nomor tugas tidak valid.")
                     continue
-                todos = hapus_tugas(todos, index)
+                todo_manager.hapus_tugas(index)
             except ValueError:
                 print("\nError: Input tidak valid.")
 
         elif pilihan == 6:
-            tampilkan_tugas(todos)
+            tampilkan_tugas(todo_manager.get_todos())
 
         elif pilihan == 7:
-            tampilkan_tugas(todos)
-            if not todos:
+            tampilkan_tugas(todo_manager.get_todos())
+            if not todo_manager.get_todos():
                 continue
             try:
                 index = int(
                     input("\nMasukkan nomor tugas yang ingin diubah statusnya: ")
                 )
-                if index < 1 or index > len(todos):
+                if index < 1 or index > len(todo_manager.get_todos()):
                     print("\nError: Nomor tugas tidak valid.")
                     continue
-                todos = toggle_status(todos, index)
+                todo_manager.toggle_status(index)
             except ValueError:
                 print("\nError: input tidak valid.")
 
@@ -134,33 +129,32 @@ def main():
 
             if pilihan_cari == 1:
                 kata_kunci = input("Masukkan kata kunci: ")
-                cari_tugas(todos, kata_kunci=kata_kunci)
+                todo_manager.cari_tugas(kata_kunci=kata_kunci)
 
             elif pilihan_cari == 2:
                 print("\nPrioritas: High, Medium, Low")
                 prioritas = input("Masukkan prioritas: ")
-                cari_tugas(todos, prioritas=prioritas)
+                todo_manager.cari_tugas(prioritas=prioritas)
 
             elif pilihan_cari == 3:
                 print("\nStatus: selesai, belum selesai")
                 status = input("Masukkan status: ")
-                cari_tugas(todos, status=status)
+                todo_manager.cari_tugas(status=status)
 
             elif pilihan_cari == 4:
                 deadline = input("Masukkan deadline (format YYYY-MM-DD): ")
-                cari_tugas(todos, deadline=deadline)
+                todo_manager.cari_tugas(deadline=deadline)
 
             elif pilihan_cari == 5:
                 kata_kunci = input("Masukkan kata kunci (kosongkan jika tidak perlu): ")
                 prioritas = input("Masukkan prioritas (kosongkan jika tidak perlu): ")
                 status = input("Masukkan status (selesai/belum selesai, kosongkan jika tidak perlu): ")
                 deadline = input("Masukkan deadline (YYYY-MM-DD, kosongkan jika tidak perlu): ")
-                cari_tugas(
-                    todos, 
-                    kata_kunci=kata_kunci, 
-                    prioritas=prioritas, 
+                todo_manager.cari_tugas(
+                    kata_kunci=kata_kunci,
+                    prioritas=prioritas,
                     status=status,
-                    deadline=deadline
+                    deadline=deadline,
                 )
 
             else:

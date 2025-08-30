@@ -4,6 +4,8 @@ Proyek **To-Do List** berbasis Command Line Interface (CLI) menggunakan Python.
 Data tugas disimpan dalam file **JSON** sehingga tidak hilang saat program ditutup.  
 Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang lebih baik.
 
+**✨ Fitur Baru:** Implementasi class-based dengan `TodoManager` untuk struktur kode yang lebih terorganisir dan mudah dikembangkan.
+
 ---
 
 ## 📦 Requirements
@@ -55,6 +57,49 @@ Dengan tampilan tabel rapi menggunakan **tabulate** dan pengalaman pengguna yang
    ```
 
 ---
+
+## 🏗️ Struktur Kode Baru
+
+Proyek ini sekarang menggunakan **class-based approach** dengan `TodoManager` yang mengelola semua operasi CRUD:
+
+```python
+class TodoManager:
+    def __init__(self):  # Otomatis memuat data dari storage
+    def tambah_tugas(self, tugas: str, prioritas: str, deadline: str = "") -> bool
+    def ubah_tugas(self, index: int, tugas_baru: str, deadline: str | None = None) -> bool
+    def ubah_prioritas(self, index: int, prioritas_baru: str) -> bool
+    def ubah_deadline(self, index: int, deadline_baru: str) -> bool
+    def hapus_tugas(self, index: int) -> bool
+    def toggle_status(self, index: int) -> bool
+    def cari_tugas(self, **kwargs) -> List[Dict[str, Any]]
+    def get_todos(self) -> List[Dict[str, Any]]
+    def refresh_data(self)
+    def save_data(self)
+```
+
+**Keuntungan struktur baru:**
+- ✅ Encapsulation yang lebih baik
+- ✅ Kode lebih terorganisir dan mudah dipelihara
+- ✅ Mudah untuk menambahkan fitur baru
+- ✅ Testing yang lebih komprehensif
+
+## 🧪 Testing
+
+Proyek ini sekarang memiliki **test unit komprehensif** dalam bahasa Indonesia:
+
+```bash
+# Menjalankan semua test
+python -m unittest test_todo_manager_simple.py
+
+# Test yang tersedia:
+- Test inisialisasi TodoManager
+- Test tambah tugas dengan berbagai skenario
+- Test ubah tugas dan deadline
+- Test hapus tugas dengan konfirmasi
+- Test toggle status tugas
+- Test pencarian tugas berdasarkan berbagai kriteria
+- Test validasi prioritas dan deadline
+```
 
 ## 🚀 Cara Menggunakan
 
